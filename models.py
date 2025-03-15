@@ -14,7 +14,7 @@ class Restaurant(db.Model):
     payment_amount = db.Column(db.Float, nullable=True)  # Payment amount associated with the restaurant (if any)
 
     # Relationship: Each restaurant can have multiple categories
-    categories = db.relationship('Category', backref='restaurant', cascade="all, delete-orphan")
+    categories = db.relationship('Category', back_populates='restaurant', cascade="all, delete-orphan")
 
 
 class Category(db.Model):
@@ -27,7 +27,7 @@ class Category(db.Model):
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)  # Foreign key linking to the restaurant
 
     # Relationship: Each category is linked to a restaurant
-    restaurant = db.relationship('Restaurant', backref=db.backref('categories', lazy=True))
+    restaurant = db.relationship('Restaurant', back_populates='categories')
 
     # Relationship: Each category can have multiple products
     products = db.relationship('Product', backref='category', cascade="all, delete-orphan")
